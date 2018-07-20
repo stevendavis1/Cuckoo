@@ -10,35 +10,35 @@
 
 ## Introduction
 
-Cuckoo was created due to lack of a proper Swift mocking framework. We built the DSL to be very similar to [Mockito](http://mockito.org/), so anyone using it in Java/Android can immediately pick it up and use it.
+Cuckoo was created due to the lack of a proper Swift mocking framework. We built the DSL to be very similar to [Mockito](http://mockito.org/), so anyone using Mockito in Java/Android can immediately pick up Cuckoo and use it.
 
 To have a chat, [join our Slack team](http://swiftkit.brightify.org)!
 
-## How does it work
+## How It Works
 
-Cuckoo has two parts. One is the [runtime](https://github.com/SwiftKit/Cuckoo) and the other one is an OS X command-line tool simply called [CuckooGenerator](https://github.com/SwiftKit/CuckooGenerator).
+Cuckoo has two parts. One is the [runtime](https://github.com/SwiftKit/Cuckoo) and the other is an OS X command-line tool simply called [CuckooGenerator](https://github.com/SwiftKit/CuckooGenerator).
 
-Unfortunately Swift does not have a proper reflection, so we decided to use a compile-time generator to go through files you specify and generate supporting structs/classes that will be used by the runtime in your test target.
+Unfortunately, Swift does not have a proper reflection, so we decided to use a compile-time generator to go through files you specify and generate supporting structs/classes that will be used by the runtime in your test target.
 
-The generated files contain enough information to give you the right amount of power. They work based on inheritance and protocol adoption. This means that only overridable things can be mocked. We currently support all features which fulfill this rule except for things listed in TODO. Due to the complexity of Swift it is not easy to check for all edge cases so if you find some unexpected behavior please report it in issues.  
+The generated files contain enough information to give you the right amount of power. They work using inheritance and protocol adoption. This means that only overridable things can be mocked. We currently support all features which fulfill this rule except for things listed in TODO. Due to the complexity of Swift, it is not easy to check for all edge cases so if you find some unexpected behavior please report it in [issues](https://github.com/Brightify/Cuckoo/issues).  
 
 ## Changelog
 
-List of all changes and new features can be found [here](CHANGELOG.md).
+A list of all changes and new features can be found [here](CHANGELOG.md).
 
 ## TODO
 
-We are still missing support for some important features like:  
+We are still missing support for some important features including:  
 
 * <del>inheritance (grandparent methods)</del>
 * generics  
 * type inference for instance variables (you need to write it explicitly, otherwise it will be replaced with "__UnknownType")  
 
-## What will not be supported
+## What Is Not and Will Not Be Supported
 
 Due to the limitations mentioned above, basically all things which don't allow overriding cannot be supported. This includes:
-* `struct` - workaround is to use a common protocol
-* everything with `final` or `private` modifier
+* `struct` - a workaround is to use a common protocol
+* everything with a `final` or `private` modifier
 * global constants and functions
 * static properties and methods
 
@@ -50,15 +50,14 @@ Cuckoo works on the following platforms:
 - **Mac OSX 10.9+**
 - **tvOS 9+**
 
-We plan to add a **watchOS 2+** support soon.
+We plan to add **watchOS 2+** support soon.
 
 ## Cuckoo
 
 ### 1. Installation
 
 #### CocoaPods
-Cuckoo runtime is available through [CocoaPods](http://cocoapods.org). To install
-it, simply add the following line to your test target in your Podfile:
+Cuckoo runtime is available through [CocoaPods](http://cocoapods.org). To install it, simply add the following line to your test target in your Podfile:
 
 ```Ruby
 pod "Cuckoo"
@@ -75,7 +74,7 @@ echo "Generated Mocks File = $OUTPUT_FILE"
 INPUT_DIR="${PROJECT_DIR}/${PROJECT_NAME}"
 echo "Mocks Input Directory = $INPUT_DIR"
 
-# Generate mock files, include as many input files as you'd like to create mocks for.
+# Generate mock files. Include as many input files as for which you'd like to create mocks.
 "${PODS_ROOT}/Cuckoo/run" generate --testable "$PROJECT_NAME" \
 --output "${OUTPUT_FILE}" \
 "$INPUT_DIR/FileName1.swift" \
@@ -86,9 +85,9 @@ echo "Mocks Input Directory = $INPUT_DIR"
 # After running once, locate `GeneratedMocks.swift` and drag it into your Xcode test target group.
 ```
 
-Input files can be also specified directly in `Run script` in `Input Files` form. To force run script to rebuild generator even if it already exists, use `--clean` as first argument.
+Input files can be also specified directly in `Run script` in `Input Files` form. To force the run script to rebuild the generator even if it already exists, use `--clean` as the first argument.
 
-Notes: All paths in the Run script must be absolute. Variable `PROJECT_DIR` automatically points to your project directory.  
+Notes: All paths in the Run script must be absolute. The variable `PROJECT_DIR` automatically points to your project directory.  
 Also include paths to inherited Classes and Protocols for mocking/stubbing parent and grandparents.  
 
 #### Carthage
